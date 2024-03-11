@@ -2,13 +2,9 @@
 
 use App\Models\Course;
 use App\Models\User;
-use function Pest\Laravel\get;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
-uses(RefreshDatabase::class);
 
 it('gives back successful response for home page', function () {
-    get(route('pages.home'))
+    $this->get(route('pages.home'))
         ->assertOk();
 });
 
@@ -17,18 +13,15 @@ it('gives back successful response for course details page', function () {
         ->released()
         ->create();
 
-    get(route('pages.course-details', $course))
+    $this->get(route('pages.course-details', $course))
         ->assertOk();
 });
 
 it('gives back successful response for dashboard age', function () {
-    // Arrange
-    $user = User::factory()->create();
-
     // Act
-    $this->actingAs($user);
+    loginAsUser();
 
-    get(route('dashboard'))
+    $this->get(route('pages.dashboard'))
         ->assertOk();
 
     // Assert

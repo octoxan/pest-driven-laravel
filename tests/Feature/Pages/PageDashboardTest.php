@@ -3,15 +3,13 @@
 use App\Models\Course;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
-use function Pest\Laravel\get;
-
-uses(RefreshDatabase::class);
+// use actingAs() helper function to authenticate user
+use function Pest\Laravel\actingAs;
 
 it('cannot be accessed by guest', function () {
     // Act & Assert
-    get(route('dashboard'))
+    $this->get(route('pages.dashboard'))
         ->assertRedirect(route('login'));
 });
 
@@ -27,9 +25,9 @@ it('lists purchased courses', function () {
         ->create();
 
     // Act
-    $this->actingAs($user);
+    loginAsUser($user);
 
-    get(route('dashboard'))
+    $this->get(route('pages.dashboard'))
         ->assertOk()
         ->assertSeeText([
             'Course A',
@@ -39,13 +37,12 @@ it('lists purchased courses', function () {
 
 it('does not list other courses', function() {
     // Arrange
-    $user = User::factory()->create();
     $course = Course::factory()->create();
 
     // Act && Assert
-    $this->actingAs($user);
+    loginAsUser();
 
-    get(route('dashboard'))
+    $this->get(route('pages.dashboard'))
         ->assertOk()
         ->assertDontSeeText($course->title);
 });
@@ -60,9 +57,9 @@ it('shows latest purchased course first', function() {
     $user->purchasedCourses()->attach($lastPurchasedCourse, ['created_at' => now()]);
 
     // Act && Assert
-    $this->actingAs($user);
+    loginAsUser($user);
 
-    get(route('dashboard'))
+    $this->get(route('pages.dashboard'))
         ->assertOk()
         ->assertSeeTextInOrder([
             $lastPurchasedCourse->title,
@@ -77,9 +74,9 @@ it('includes link to product videos', function() {
         ->create();
 
     // Act && Assert
-    $this->actingAs($user);
+    loginAsUser($user);
 
-    get(route('dashboard'))
+    $this->get(route('pages.dashboard'))
         ->assertOk()
         ->assertSeeText('Watch videos')
         ->assertSee(route('pages.course-videos', Course::first()));
