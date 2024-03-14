@@ -24,7 +24,7 @@ it('lists purchased courses', function () {
             )), 'purchasedCourses')
         ->create();
 
-    // Act
+    // Act && Assert
     loginAsUser($user);
 
     $this->get(route('pages.dashboard'))
@@ -35,7 +35,7 @@ it('lists purchased courses', function () {
         ]);
 });
 
-it('does not list other courses', function() {
+it('does not list other courses', function () {
     // Arrange
     $course = Course::factory()->create();
 
@@ -47,7 +47,7 @@ it('does not list other courses', function() {
         ->assertDontSeeText($course->title);
 });
 
-it('shows latest purchased course first', function() {
+it('shows latest purchased course first', function () {
     // Arrange
     $user = User::factory()->create();
     $firstPurchasedCourse = Course::factory()->create();
@@ -67,7 +67,7 @@ it('shows latest purchased course first', function() {
         ]);
 });
 
-it('includes link to product videos', function() {
+it('includes link to product videos', function () {
     // Arrange
     $user = User::factory()
         ->has(Course::factory(), 'purchasedCourses')
@@ -80,4 +80,14 @@ it('includes link to product videos', function() {
         ->assertOk()
         ->assertSeeText('Watch videos')
         ->assertSee(route('pages.course-videos', Course::first()));
+});
+
+it('includes logout if logged in', function () {
+    // Act && Assert
+    loginAsUser();
+
+    $this->get(route('pages.dashboard'))
+        ->assertOk()
+        ->assertSeeText('Log Out')
+        ->assertSee(route('logout'));
 });

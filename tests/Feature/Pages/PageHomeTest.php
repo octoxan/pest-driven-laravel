@@ -41,3 +41,27 @@ it('shows courses sorted by release date', function () {
             $releasedCourse->title,
         ]);
 });
+
+it('includes login if not logged in', function () {
+    // Act && Assert
+    $this->get(route('pages.home'))
+        ->assertOk()
+        ->assertSeeText('Login')
+        ->assertSee(route('login'));
+});
+
+it('includes logout if logged in', function () {
+    // Act && Assert
+    loginAsUser();
+
+    $this->get(route('pages.home'))
+        ->assertOk()
+        ->assertSeeText('Log Out')
+        ->assertSee(route('logout'));
+});
+
+it('does not find JetStream registration page', function () {
+    // Act && Assert
+    $this->get('register')
+        ->assertNotFound();
+});

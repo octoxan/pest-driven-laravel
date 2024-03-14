@@ -6,9 +6,8 @@ use App\Models\Video;
 it('does not find unreleased course', function () {
     // Arrange
     $course = Course::factory()->create();
-    // Act
 
-    // Assert
+    // Act & Assert
     $this->get(route('pages.course-details', $course))
         ->assertNotFound();
 });
@@ -17,9 +16,8 @@ it('shows course details', function () {
     // Arrange
     $course = Course::factory()->released()
         ->create();
-    // Act
 
-    // Assert
+    // Act & Assert
     $this->get(route('pages.course-details', $course))
         ->assertOk()
         ->assertSeeText([
