@@ -5,4 +5,12 @@
             webkitallowfullscreen
             mozallowfullscreen
             allowfullscreen></iframe>
+
+    <ul>
+        @foreach ($courseVideos as $courseVideo)
+            <li>
+                <a href="{{ route('pages.course-videos', $courseVideo) }}">{{ $courseVideo->title }}</a>
+            </li>
+        @endforeach
+    </ul>
 </div>

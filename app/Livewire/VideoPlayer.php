@@ -9,13 +9,16 @@ class VideoPlayer extends Component
 {
     public $video;
 
-    public function mount(Video $video)
-    {
-        $this->video = $video;
-    }
+    // public function mount(Video $video)
+    // {
+    //     $this->video = $video;
+    // }
 
     public function render()
     {
-        return view('livewire.video-player');
+        return view('livewire.video-player', [
+            'video' => $this->video,
+            'courseVideos' => $this->video->course->videos,
+        ]);
     }
 }
