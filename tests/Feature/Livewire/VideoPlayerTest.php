@@ -8,31 +8,27 @@ use Livewire\Livewire;
 it('shows details for given video', function () {
     // Arrange
     $course = Course::factory()
-        ->has(Video::factory()->state([
-            'title' => 'My Video',
-            'description' => 'Video Description',
-            'duration' => 10,
-        ]))
+        ->has(Video::factory())
         ->create();
 
+    $video = $course->videos->first();
     // Act && Assert
-    Livewire::test(VideoPlayer::class, ['video' => $course->videos->first()])
+    Livewire::test(VideoPlayer::class, ['video' => $video])
         ->assertSeeText([
-            'My Video',
-            'Video Description',
-            '10min',
+            $video->title,
+            $video->description,
+            "{$video->duration_in_min}min",
         ]);
 });
 
 it('shows given video', function () {
     // Arrange
     $course = Course::factory()
-        ->has(Video::factory()->state([
-            'vimeo_id' => 'vimeo-id',
-        ]))
+        ->has(Video::factory())
         ->create();
 
+    $video = $course->videos->first();
     // Act && Assert
-    Livewire::test(VideoPlayer::class, ['video' => $course->videos->first()])
-        ->assertSee('src="https://player.vimeo.com/video/vimeo-id"', false);
+    Livewire::test(VideoPlayer::class, ['video' => $video])
+        ->assertSeeHtml('src="https://player.vimeo.com/video/'.$video->vimeo_id.'"');
 });
