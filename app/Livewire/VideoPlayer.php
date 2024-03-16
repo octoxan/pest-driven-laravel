@@ -24,6 +24,11 @@ class VideoPlayer extends Component
         auth()->user()->watchedVideos()->detach($this->video->id);
     }
 
+    public function isCurrentVideo(Video $videoToCheck): bool
+    {
+        return $this->video->id === $videoToCheck->id;
+    }
+
     public function render()
     {
         return view('livewire.video-player', [
