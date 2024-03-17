@@ -32,7 +32,8 @@ return [
     ],
 
     'paddle' => [
-        'vendor_id' => env('PADDLE_VENDOR_ID'),
+        'vendor-id' => env('PADDLE_VENDOR_ID'),
+        'public-key' => env('PADDLE_PUBLIC_KEY'),
     ],
 
 ];

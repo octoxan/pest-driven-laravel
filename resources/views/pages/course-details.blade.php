@@ -20,6 +20,6 @@
         Paddle.Environment.set('sandbox');
     @endenv
     Paddle.Setup({
-        vendor: {{ config('services.paddle.vendor_id') }}
+        vendor: {{ config('services.paddle.vendor-id') }}
     });
 </script>
