@@ -12,10 +12,13 @@
 
 <a href="#!"
    class="paddle_button"
-   data-product="product-id">Buy Now!</a>
+   data-product="{{ $course->paddle_product_id }}">Buy Now!</a>
 
 <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
 <script type="text/javascript">
+    @env('local')
+        Paddle.Environment.set('sandbox');
+    @endenv
     Paddle.Setup({
         vendor: {{ config('services.paddle.vendor_id') }}
     });
