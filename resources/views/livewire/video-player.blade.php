@@ -1,4 +1,9 @@
 <div>
+    <iframe src="https://player.vimeo.com/video/{{ $video->vimeo_id }}"
+            webkitallowfullscreen
+            mozallowfullscreen
+            allowfullscreen></iframe>
+
     <h3>{{ $video->title }} ({{ $video->getReadableDuration() }})</h3>
     <p>{{ $video->description }}</p>
 
@@ -8,10 +13,7 @@
         <button wire:click="markVideoAsCompleted">Mark as completed</button>
     @endif
 
-    <iframe src="https://player.vimeo.com/video/{{ $video->vimeo_id }}"
-            webkitallowfullscreen
-            mozallowfullscreen
-            allowfullscreen></iframe>
+
 
     <ul>
         @foreach ($courseVideos as $courseVideo)
