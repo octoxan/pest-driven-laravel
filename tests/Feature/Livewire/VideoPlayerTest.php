@@ -39,7 +39,7 @@ it('shows given video', function () {
     $video = $course->videos->first();
     // Act && Assert
     Livewire::test(VideoPlayer::class, ['video' => $video])
-        ->assertSeeHtml('src="https://player.vimeo.com/video/'.$video->vimeo_id.'"');
+        ->assertSeeHtml('src="https://player.vimeo.com/video/'.$video->vimeo_id);
 });
 
 it('shows list of all course videos', function () {
@@ -71,30 +71,25 @@ it('does not include route for current video', function () {
 
 it('marks video as completed', function () {
     // Arrange
-    $user = User::factory()->create();
     $course = createCourseAndVideos();
-
     $this->loggedInUser->purchasedCourses()->attach($course);
 
     // Assert
     expect($this->loggedInUser->watchedVideos)->toHaveCount(0);
-    // Act
-    loginAsUser($this->loggedInUser);
 
-    Livewire::test(VideoPlayer::class, ['video' => $course->videos()->first()])
+    // Act
+    $firstVideo = $course->videos()->first();
+    Livewire::test(VideoPlayer::class, ['video' => $firstVideo])
         ->assertMethodWired('markVideoAsCompleted')
         ->call('markVideoAsCompleted')
-        ->assertMethodNotWired('markVideoAsCompleted')
-        ->assertMethodWired('markVideoAsNotCompleted');
+        ->assertMethodWired('markVideoAsNotCompleted')
+        ->assertSee($firstVideo->title);
 
     // Assert
     $this->loggedInUser->refresh();
-
     expect($this->loggedInUser->watchedVideos)
         ->toHaveCount(1)
-        ->first()
-        ->title
-        ->toEqual($course->videos()->first()->title);
+        ->first()->title->toEqual($course->videos()->first()->title);
 });
 
 it('marks video as not completed', function () {

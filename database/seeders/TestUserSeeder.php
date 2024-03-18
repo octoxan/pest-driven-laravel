@@ -15,7 +15,7 @@ class TestUserSeeder extends Seeder
             User::truncate();
             $user = User::create([
                 'email' => 'test@test.at',
-                'name' => 'Christoph',
+                'name' => 'Xan',
                 'password' => bcrypt('test'),
             ]);
 

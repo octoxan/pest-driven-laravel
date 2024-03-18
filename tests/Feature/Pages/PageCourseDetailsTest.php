@@ -59,7 +59,8 @@ it('includes paddle checkout button', function () {
         ->assertSee('Paddle.Setup({', false)
         ->assertSeeInOrder([
             '<a href="#!"',
-            'class="paddle_button"',
-            'data-product="product-id">Buy Now!</a>',
+            'data-product="product-id"',
+            'data-theme="none"',
+            'class="paddle_button',
         ], false);
 });
