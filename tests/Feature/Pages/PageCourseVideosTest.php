@@ -9,7 +9,7 @@ it('cannot be accessed by guest', function () {
     // Arrange
     $course = Course::factory()->create();
 
-    // Act && Assert
+    // Act & Assert
     $this->get(route('pages.course-videos', $course))
         ->assertRedirect(route('login'));
 });
@@ -20,7 +20,7 @@ it('includes video player', function () {
         ->has(Video::factory())
         ->create();
 
-    // Act && Assert
+    // Act & Assert
     loginAsUser();
 
     $this->get(route('pages.course-videos', $course))
@@ -56,7 +56,7 @@ it('shows provided course video', function () {
         )
         ->create();
 
-    // Act && Assert
+    // Act & Assert
     loginAsUser();
 
     $this->get(route('pages.course-videos', ['course' => $course, 'video' => $course->videos()->orderByDesc('id')->first()]))

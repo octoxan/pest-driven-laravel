@@ -43,7 +43,7 @@ it('shows courses sorted by release date', function () {
 });
 
 it('includes login if not logged in', function () {
-    // Act && Assert
+    // Act & Assert
     $this->get(route('pages.home'))
         ->assertOk()
         ->assertSeeText('Login')
@@ -51,7 +51,7 @@ it('includes login if not logged in', function () {
 });
 
 it('does not find JetStream registration page', function () {
-    // Act && Assert
+    // Act & Assert
     $this->get('register')
         ->assertNotFound();
 });
@@ -62,7 +62,7 @@ it('includes courses links', function () {
     $secondCourse = Course::factory()->released()->create();
     $lastCourse = Course::factory()->released()->create();
 
-    // Act && Assert
+    // Act & Assert
     $this->get(route('pages.home'))
         ->assertOk()
         ->assertSeeInOrder([
@@ -70,4 +70,32 @@ it('includes courses links', function () {
             route('pages.course-details', $secondCourse),
             route('pages.course-details', $lastCourse),
         ]);
+});
+
+it('includes title', function () {
+    // Arrange
+    $expectedTitle = config('app.name').' - Home';
+
+    // Act & Assert
+    $this->get(route('pages.home'))
+        ->assertOk()
+        ->assertSee("<title>$expectedTitle</title>", false);
+});
+
+it('includes social tags', function () {
+    // Arrange
+
+    // Act & Assert
+    $this->get(route('pages.home'))
+        ->assertOk()
+        ->assertSee([
+            '<meta property="og:title" content="'.config('app.name').'">',
+            '<meta property="og:description" content="'.config('app.name').'">',
+            '<meta property="og:image" content="'.asset('images/advanced_laravel.png').'">',
+            '<meta property="og:url" content="'.route('pages.home').'">',
+            '<meta name="twitter:card" content="summary_large_image">',
+            '<meta name="twitter:title" content="'.config('app.name').'">',
+            '<meta name="twitter:description" content="'.config('app.name').'">',
+            '<meta name="twitter:image" content="'.asset('images/advanced_laravel.png').'">',
+        ], false);
 });

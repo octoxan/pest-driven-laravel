@@ -1,28 +1,40 @@
-<x-guest-layout>
+<x-guest-layout :page-title="config('app.name') . ' - Home'">
+    @push('social-meta')
+        <meta property="og:title" content="{{ config('app.name') }}">
+        <meta property="og:description" content="{{ config('app.name') }}">
+        <meta property="og:image" content="{{ asset('images/advanced_laravel.png') }}">
+        <meta property="og:url" content="{{ route('pages.home') }}">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{{ config('app.name') }}">
+        <meta name="twitter:description" content="{{ config('app.name') }}">
+        <meta name="twitter:image" content="{{ asset('images/advanced_laravel.png') }}">
+    @endpush
+
     <main>
         <div class="sm:pt-16 lg:overflow-hidden lg:pt-8 lg:pb-14 pt-10 bg-indigo-500">
             <div class="max-w-7xl lg:px-8 mx-auto">
                 <div class="lg:grid lg:grid-cols-2 lg:gap-8">
                     <div
-                         class="sm:max-w-2xl sm:px-6 sm:text-center lg:flex lg:items-center lg:px-0 lg:text-left max-w-md px-4 mx-auto">
+                        class="sm:max-w-2xl sm:px-6 sm:text-center lg:flex lg:items-center lg:px-0 lg:text-left max-w-md px-4 mx-auto">
                         <div class="lg:py-24">
                             <h1
                                 class="sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl mt-4 text-4xl font-bold tracking-tight text-white">
                                 <span class="block">A cast a day</span>
                                 <span
-                                      class="bg-gradient-to-r from-yellow-500 to-yellow-200 bg-clip-text sm:pb-5 block pb-3 text-transparent">keeps
+                                    class="bg-gradient-to-r from-yellow-500 to-yellow-200 bg-clip-text sm:pb-5 block pb-3 text-transparent">keeps
                                     bugs away</span>
                             </h1>
                             <p class="sm:text-xl lg:text-lg xl:text-xl text-base text-gray-200">
                                 <strong>LaravelCasts</strong> is the
-                                leading learning platform for Laravel developers.</p>
+                                leading learning platform for Laravel developers.
+                            </p>
                         </div>
                     </div>
                     <div class="sm:-mb-48 lg:relative lg:m-0 mt-12 -mb-16">
                         <div class="sm:max-w-2xl sm:px-6 lg:max-w-none lg:px-0 max-w-md px-4 mx-auto">
                             <img class="lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-auto lg:max-w-none w-full"
-                                 src="{{ asset('images/coding_illustration.svg') }}"
-                                 alt="Illustration of someone coding in front of a computer at home">
+                                src="{{ asset('images/coding_illustration.svg') }}"
+                                alt="Illustration of someone coding in front of a computer at home">
                         </div>
                     </div>
                 </div>
@@ -39,7 +51,7 @@
                         specific aspect of programming. Go step by step and never stop learning.</p>
                 </div>
                 <div
-                     class="sm:max-w-lg sm:px-6 lg:max-w-7xl lg:grid-cols-3 lg:px-8 grid max-w-md gap-8 px-4 mx-auto mt-12">
+                    class="sm:max-w-lg sm:px-6 lg:max-w-7xl lg:grid-cols-3 lg:px-8 grid max-w-md gap-8 px-4 mx-auto mt-12">
                     @foreach ($courses as $course)
                         @include('partials.home-course-item')
                     @endforeach

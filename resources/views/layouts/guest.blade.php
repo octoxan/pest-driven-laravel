@@ -10,7 +10,9 @@
 
     @include('partials.favicon')
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ $pageTitle }}</title>
+
+    @stack('social-meta')
 
     <!-- Fonts -->
 
@@ -25,7 +27,7 @@
                 <div class="py-6 bg-indigo-500">
                     <nav class="max-w-7xl sm:px-6 relative flex items-center justify-between px-4 mx-auto"
                          aria-label="Global">
-                        <div class="flex items-center flex-1">
+                        <div class="flex items-center">
                             <div class="flex items-center justify-between w-auto w-full">
                                 <a href="{{ route('pages.home') }}">
                                     <span class="sr-only">LaravelCasts</span>
@@ -34,7 +36,7 @@
                                          alt="An illustrated TV as logo for LaraCasts">
                                 </a>
                             </div>
-                            <div class="flex ml-10 space-x-8">
+                            <div class="flex ml-4 space-x-8">
                                 <a href="{{ route('pages.home') }}"
                                    class="text-2xl font-medium text-white">Laravel<span
                                           class="font-bold">Casts</span></a>

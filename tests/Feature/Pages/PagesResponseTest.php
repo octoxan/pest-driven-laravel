@@ -34,7 +34,7 @@ it('gives successful response for videos page', function () {
         ->has(Video::factory())
         ->create();
 
-    // Act && Assert
+    // Act & Assert
     loginAsUser();
 
     $this->get(route('pages.course-videos', $course))

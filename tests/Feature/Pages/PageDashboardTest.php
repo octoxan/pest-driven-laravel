@@ -24,7 +24,7 @@ it('lists purchased courses', function () {
             )), 'purchasedCourses')
         ->create();
 
-    // Act && Assert
+    // Act & Assert
     loginAsUser($user);
 
     $this->get(route('pages.dashboard'))
@@ -39,7 +39,7 @@ it('does not list other courses', function () {
     // Arrange
     $course = Course::factory()->create();
 
-    // Act && Assert
+    // Act & Assert
     loginAsUser();
 
     $this->get(route('pages.dashboard'))
@@ -56,7 +56,7 @@ it('shows latest purchased course first', function () {
     $user->purchasedCourses()->attach($firstPurchasedCourse, ['created_at' => now()->yesterday()]);
     $user->purchasedCourses()->attach($lastPurchasedCourse, ['created_at' => now()]);
 
-    // Act && Assert
+    // Act & Assert
     loginAsUser($user);
 
     $this->get(route('pages.dashboard'))
@@ -73,7 +73,7 @@ it('includes link to product videos', function () {
         ->has(Course::factory(), 'purchasedCourses')
         ->create();
 
-    // Act && Assert
+    // Act & Assert
     loginAsUser($user);
 
     $this->get(route('pages.dashboard'))
@@ -83,7 +83,7 @@ it('includes link to product videos', function () {
 });
 
 it('includes logout if logged in', function () {
-    // Act && Assert
+    // Act & Assert
     loginAsUser();
 
     $this->get(route('pages.dashboard'))

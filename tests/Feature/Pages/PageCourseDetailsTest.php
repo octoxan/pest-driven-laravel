@@ -52,7 +52,7 @@ it('includes paddle checkout button', function () {
             'paddle_product_id' => 'product-id',
         ]);
 
-    // Act && Assert
+    // Act & Assert
     $this->get(route('pages.course-details', $course))
         ->assertOk()
         ->assertSee('<script src="https://cdn.paddle.com/paddle/paddle.js"></script>', false)
@@ -62,5 +62,35 @@ it('includes paddle checkout button', function () {
             'data-product="product-id"',
             'data-theme="none"',
             'class="paddle_button',
+        ], false);
+});
+
+it('includes title', function () {
+    // Arrange
+    $course = Course::factory()->released()->create();
+    $expectedTitle = config('app.name').' - '.$course->title;
+
+    // Act & Assert
+    $this->get(route('pages.course-details', $course))
+        ->assertOk()
+        ->assertSee("<title>$expectedTitle</title>", false);
+});
+
+it('includes social tags', function () {
+    // Arrange
+    $course = Course::factory()->released()->create();
+
+    // Act & Assert
+    $this->get(route('pages.course-details', $course))
+        ->assertOk()
+        ->assertSee([
+            '<meta property="og:title" content="'.$course->title.'">',
+            '<meta property="og:description" content="'.$course->description.'">',
+            '<meta property="og:image" content="'.asset('images/advanced_laravel.png').'">',
+            '<meta property="og:url" content="'.route('pages.course-details', $course).'">',
+            '<meta name="twitter:card" content="summary_large_image">',
+            '<meta name="twitter:title" content="'.$course->title.'">',
+            '<meta name="twitter:description" content="'.$course->description.'">',
+            '<meta name="twitter:image" content="'.asset('images/advanced_laravel.png').'">',
         ], false);
 });

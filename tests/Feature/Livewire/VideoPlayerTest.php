@@ -23,7 +23,7 @@ it('shows details for given video', function () {
     $course = createCourseAndVideos();
 
     $video = $course->videos->first();
-    // Act && Assert
+    // Act & Assert
     Livewire::test(VideoPlayer::class, ['video' => $video])
         ->assertSeeText([
             $video->title,
@@ -37,7 +37,7 @@ it('shows given video', function () {
     $course = createCourseAndVideos();
 
     $video = $course->videos->first();
-    // Act && Assert
+    // Act & Assert
     Livewire::test(VideoPlayer::class, ['video' => $video])
         ->assertSeeHtml('src="https://player.vimeo.com/video/'.$video->vimeo_id);
 });
@@ -46,7 +46,7 @@ it('shows list of all course videos', function () {
     // Arrange
     $course = createCourseAndVideos(videosCount: 3);
 
-    // Act && Assert
+    // Act & Assert
     Livewire::test(VideoPlayer::class, ['video' => $course->videos->first()])
         ->assertSeeText([
             ...$course->videos->pluck('title')->toArray(),
@@ -61,7 +61,7 @@ it('does not include route for current video', function () {
     // Arrange
     $course = createCourseAndVideos();
 
-    // Act && Assert
+    // Act & Assert
     Livewire::test(VideoPlayer::class, ['video' => $course->videos->first()])
         ->assertSeeText([
             ...$course->videos->pluck('title')->toArray(),
