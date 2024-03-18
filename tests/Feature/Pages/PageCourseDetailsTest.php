@@ -94,3 +94,10 @@ it('includes social tags', function () {
     expect($seo->data)
         ->openGraph()->url->toBe(route('pages.course-details', $course));
 });
+
+it('I will get around to this eventually?', function () {
+    // Arrange
+
+    // Act && Assert
+
+})->todo();
