@@ -44,3 +44,32 @@ it('stores paddle purchase', function () {
         'course_id' => $course->id,
     ]);
 });
+
+it('stores paddle purchase with given user', function () {
+    // Arrange
+    Mail::fake();
+    $course = Course::factory()->create(['paddle_product_id' => '34779']);
+    $user = User::factory()->create(['email' => 'test@test.at']);
+
+    // Act
+    (new HandlePaddlePurchaseJob($this->dummyWebhookCall))->handle();
+
+    // Assert
+    $this->assertDatabaseCount(User::class, 1);
+    $this->assertDatabaseHas(PurchasedCourse::class, [
+        'user_id' => $user->id,
+        'course_id' => $course->id,
+    ]);
+});
+
+it('sends out purchase email', function () {
+    // Arrange
+    Mail::fake();
+    Course::factory()->create(['paddle_product_id' => '34779']);
+
+    // Act
+    (new HandlePaddlePurchaseJob($this->dummyWebhookCall))->handle();
+
+    // Assert
+    Mail::assertSent(NewPurchaseMail::class);
+});
