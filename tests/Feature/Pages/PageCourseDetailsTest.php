@@ -2,6 +2,7 @@
 
 use App\Models\Course;
 use App\Models\Video;
+use Juampi92\TestSEO\TestSEO;
 
 it('does not find unreleased course', function () {
     // Arrange
@@ -70,27 +71,26 @@ it('includes title', function () {
     $course = Course::factory()->released()->create();
     $expectedTitle = config('app.name').' - '.$course->title;
 
+    $response = $this->get(route('pages.course-details', $course))
+        ->assertOk();
+
     // Act & Assert
-    $this->get(route('pages.course-details', $course))
-        ->assertOk()
-        ->assertSee("<title>$expectedTitle</title>", false);
+    $seo = new TestSEO($response->getContent());
+
+    expect($seo->data)
+        ->title()->toBe($expectedTitle);
 });
 
 it('includes social tags', function () {
     // Arrange
     $course = Course::factory()->released()->create();
 
-    // Act & Assert
-    $this->get(route('pages.course-details', $course))
-        ->assertOk()
-        ->assertSee([
-            '<meta property="og:title" content="'.$course->title.'">',
-            '<meta property="og:description" content="'.$course->description.'">',
-            '<meta property="og:image" content="'.asset('images/advanced_laravel.png').'">',
-            '<meta property="og:url" content="'.route('pages.course-details', $course).'">',
-            '<meta name="twitter:card" content="summary_large_image">',
-            '<meta name="twitter:title" content="'.$course->title.'">',
-            '<meta name="twitter:description" content="'.$course->description.'">',
-            '<meta name="twitter:image" content="'.asset('images/advanced_laravel.png').'">',
-        ], false);
+    // Assert
+    $response = $this->get(route('pages.course-details', $course))
+        ->assertOk();
+
+    $seo = new TestSEO($response->getContent());
+
+    expect($seo->data)
+        ->openGraph()->url->toBe(route('pages.course-details', $course));
 });

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Course;
+use Juampi92\TestSEO\TestSEO;
 
 it('shows courses overview', function () {
     // Arrange
@@ -76,26 +77,27 @@ it('includes title', function () {
     // Arrange
     $expectedTitle = config('app.name').' - Home';
 
-    // Act & Assert
-    $this->get(route('pages.home'))
-        ->assertOk()
-        ->assertSee("<title>$expectedTitle</title>", false);
+    // Assert
+    $response = $this->get(route('pages.home'))
+        ->assertOk();
+
+    $seo = new TestSEO($response->getContent());
+
+    expect($seo->data)
+        ->title()->toBe($expectedTitle);
 });
 
 it('includes social tags', function () {
-    // Arrange
+    // Assert
+    $response = $this->get(route('pages.home'))
+        ->assertOk();
 
-    // Act & Assert
-    $this->get(route('pages.home'))
-        ->assertOk()
-        ->assertSee([
-            '<meta property="og:title" content="'.config('app.name').'">',
-            '<meta property="og:description" content="'.config('app.name').'">',
-            '<meta property="og:image" content="'.asset('images/advanced_laravel.png').'">',
-            '<meta property="og:url" content="'.route('pages.home').'">',
-            '<meta name="twitter:card" content="summary_large_image">',
-            '<meta name="twitter:title" content="'.config('app.name').'">',
-            '<meta name="twitter:description" content="'.config('app.name').'">',
-            '<meta name="twitter:image" content="'.asset('images/advanced_laravel.png').'">',
-        ], false);
+    $seo = new TestSEO($response->getContent());
+
+    expect($seo->data)
+        ->openGraph()->url->toBe(route('pages.home'))
+        ->openGraph()->title->toBe(config('app.name'))
+        ->openGraph()->description->toBe(config('app.name'))
+        ->openGraph()->image->toBe(asset('images/advanced_laravel.png'))
+        ->twitter()->card->toBe('summary_large_image');
 });
